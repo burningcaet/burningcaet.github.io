@@ -19,7 +19,7 @@
         });
 
         // WebSocket connection to retrieve flag
-        const ws = new WebSocket('ws://web:8080/admin/ws');
+        const ws = new WebSocket('wss://web:8080/admin/ws');
 
    ws.onerror = (event) => {
      console.error('WebSocket error:', event);
