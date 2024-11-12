@@ -6,18 +6,30 @@
 </head>
 <body>
     <script>
-        const ws = new WebSocket('ws://localhost:8080/admin/ws');
+        console.log("Starting WebSocket connection to retrieve the flag...");
+
+        // Connect to the WebSocket using the Docker network name
+        const ws = new WebSocket('ws://web:8080/admin/ws');
 
         ws.onopen = () => {
-            ws.send('flag');
+            console.log("WebSocket connection opened.");
+            ws.send('flag');  // Request the flag
+            console.log("Sent 'flag' request to WebSocket.");
         };
 
         ws.onmessage = (event) => {
             const flag = event.data;
-            
-            console.log("Flag:", flag);
-            
+            console.log("Received response from WebSocket:", flag);  // Log the flag to console
             ws.close();
+            console.log("WebSocket connection closed.");
+        };
+
+        ws.onerror = (error) => {
+            console.error("WebSocket encountered an error:", error);
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket connection closed.");
         };
     </script>
 </body>
